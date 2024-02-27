@@ -37,19 +37,20 @@ class fireNode {
             'client_x509_cert_url': this.client509CertUrl,
             'universe_domain': 'googleapis.com',
         };
-        this.currentTimestamp = new Date().getTime();
-        admin.initializeApp({
+        this.multiData = {};
+        this.multiData[this.name] = admin.initializeApp({
             credential: admin.credential.cert(this.serviceAccountKey),
             databaseURL: this.databaseURL,
-        },this.currentTimestamp.toString());
-        
+        }, this.name);
+
     }
 
     async getState(callback) {
         try {
-            const db = admin.database();
+            const customToken = await this.multiData[this.name].auth().createCustomToken(this.uid);
+            const db = this.multiData[this.name].database();
             const ref = db.ref(this.nodo);
-    
+
             ref.once('value', (snapshot) => {
                 const value = snapshot.val();
                 this._state = value == 1 ? false : true;
@@ -63,12 +64,12 @@ class fireNode {
             callback(error); // Devolver cualquier error al callback
         }
     }
-    
+
 
     async setState(val, callback) {
         try {
-            const customToken = await admin.auth().createCustomToken(this.uid);
-            const db = admin.database();
+            const customToken = await this.multiData[this.name].auth().createCustomToken(this.uid);
+            const db = this.multiData[this.name].database();
             const ref = db.ref(this.nodo);
             ref.once('value', (snapshot) => {
                 let value = snapshot.val();
@@ -86,7 +87,7 @@ class fireNode {
         } catch (error) {
             console.error('Error de autenticación:', error);
             callback(error)
-        } 
+        }
     }
 
 
