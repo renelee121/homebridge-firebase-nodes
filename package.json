@@ -1,6 +1,6 @@
 {
   "name": "homebridge-firebase-nodes",
-  "version": "0.1-alpha",
+  "version": "1.0.0",
   "description": "Homebridge Switch Plugin for Firebase",
   "main": "index.js",
   "scripts": {
