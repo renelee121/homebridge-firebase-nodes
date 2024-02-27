@@ -37,7 +37,7 @@ class fireNode {
             'client_x509_cert_url': this.client509CertUrl,
             'universe_domain': 'googleapis.com',
         };
-        this.currentTime = performance.timing.navigationStart + performance.now();
+        this.currentTime = new Date().now();
         admin.initializeApp({
             credential: admin.credential.cert(this.serviceAccountKey),
             databaseURL: this.databaseURL,
