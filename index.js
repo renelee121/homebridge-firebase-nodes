@@ -37,11 +37,11 @@ class fireNode {
             'client_x509_cert_url': this.client509CertUrl,
             'universe_domain': 'googleapis.com',
         };
-        this.currentTime = new Date().now();
+        this.currentTimestampSeconds = Math.floor(new Date().getTime() / 1000);
         admin.initializeApp({
             credential: admin.credential.cert(this.serviceAccountKey),
             databaseURL: this.databaseURL,
-        },this.currentTime.toString());
+        },this.currentTimestampSeconds.toString());
         
     }
 
